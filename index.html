@@ -1,0 +1,83 @@
+<!DOCTYPE html >
+<html>
+    <head> </head>
+    <body style='margin:0px;'>
+        <canvas id='canvas' style='position:absolute;'></canvas>
+        <svg id='svg' version='1.1'></svg>
+
+        <script type="text/javascript">
+
+            document.addEventListener("DOMContentLoaded", function(event) {
+
+                var innerWidth = window.innerWidth;
+                var innerHeight = window.innerHeight;
+                var x_appCenterPointCoordinate = (innerWidth / 2);
+                var y_appCenterPointCoordinate = (innerHeight / 2)
+
+                var svg = document.getElementById('svg');
+                svg.setAttribute('width', innerWidth);
+                svg.setAttribute('height', innerHeight);
+
+                var xmlNameSpace = 'http://www.w3.org/2000/svg';
+                svg.setAttribute('xmlns', xmlNameSpace);
+
+
+                var circle = document.createElementNS(xmlNameSpace, 'circle');
+                circle.setAttribute('cx', innerWidth / 2);
+                circle.setAttribute('cy', innerHeight / 2);
+                var circleRadius = (innerHeight / 2) - 50;
+                circle.setAttribute('r', circleRadius);
+                circle.setAttribute('shape-rendering', 'optimize-quality');
+                circle.setAttribute('fill', 'none');
+                circle.setAttribute('stroke-width', '2');
+                circle.setAttribute('stroke', 'black');
+
+                var square = document.createElementNS(xmlNameSpace, 'rect');
+                var squareX = x_appCenterPointCoordinate - circleRadius;
+                square.setAttribute('x', squareX);
+                var squareY = y_appCenterPointCoordinate - circleRadius;
+                square.setAttribute('y', squareY);
+                var squareWidth = circleRadius * 2;
+                square.setAttribute('height', squareWidth);
+                square.setAttribute('width', squareWidth);
+                square.setAttribute('fill', 'none');
+                square.setAttribute('stroke-width', '2');
+                square.setAttribute('stroke', 'black');
+
+                svg.appendChild(square);
+                svg.appendChild(circle);
+
+                var canvas = document.getElementById('canvas');
+                canvas.width = innerWidth;
+                canvas.height = innerHeight;
+                var ctx = canvas.getContext('2d');
+
+                function rainDrop() {
+                    var minX = squareX + 1;
+                    var maxX = minX + (squareWidth - 1);
+                    var randomX = getRandomInclusive(maxX, minX);
+
+                    var minY = squareY + 1;
+                    var maxY = minY + (squareWidth - 1);
+                    var randomY = getRandomInclusive(maxY, minY);
+
+                    ctx.beginPath();
+                    ctx.arc(randomX, randomY, 2, 0, 2 * Math.PI);
+                    ctx.stroke();
+                }
+
+                function getRandomInclusive(max, min) {
+                    return Math.floor(Math.random() * (max - min + 1)) + min;
+                }
+
+                var interId = setInterval(function() {
+                    rainDrop();
+                    setTimeout(function() { clearInterval(interId) }, 20000);
+                }, 1);
+
+            });
+        </script>
+
+    </body>
+</html>
+
