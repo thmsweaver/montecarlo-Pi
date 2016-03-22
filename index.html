@@ -1,94 +1,21 @@
 <!DOCTYPE html >
 <html>
-    <head></head>
-    <body style='margin:0px;'>
+    <head>
+        <script src='./scripts/resources/script-loader.js'></script>
+        <script src='./scripts/app.js'></script>
+    </head>
+    <body style='margin:0px;text-align:center;'>
+        <div class='header'>
+            <button class='btn' style='margin-top:60px;'>Estimate Pi</button>
+        </div>
+        <div class='mainView'></div>
         <canvas id='canvas' style='position:absolute;'></canvas>
         <svg id='svg' version='1.1'></svg>
-
-        <script type="text/javascript">
-            var circleResource = {
-                script: './scripts/circle-painter.js',
-                onload: function() { circlePainter.paintBounds(); }
-            };
-
-            var squareResource = {
-                script: './scripts/square-painter.js',
-                onload: function() { squarePainter.paintBounds(); }
-            };
-
-            var app = {
-                globals: {},
-                view: {},
-                constants: {
-                    xmlNameSpace: 'http://www.w3.org/2000/svg',
-                    resources: [circleResource, squareResource]
-                },
-                runSimulation: function(squareSide) {
-                    var intervalId = setInterval(function() {
-                        var randomPoint = this.getRandomPoint(squareSide);
-                        pointPainter.paint(randomPoint)
-                        setTimeout(function() { clearInterval(intervalId) }, 40000);
-                    }, 1);
-
-                    ctx.beginPath();
-                    ctx.arc(randomX, randomY, 2, 0, 2 * Math.PI);
-                    ctx.stroke();
-                },
-                getRandomPoint: function(squareSide) {
-                    var minBound = 1;
-                    var maxBound = squareSide - minBound;
-                    return {
-                        x: getRandomInclusive(minBound, maxBound),
-                        y: getRandomInclusive(minBound, maxBound)
-                    };
-                },
-                getRandomInclusive: function(max, min) {
-                    // name this better;
-                    var random = Math.random() * (max - min + 1);
-                    // research this;
-                    return ~~(random) + min;
-                }
-            };
-        </script>
-
         <script type='text/javascript'>
-
-            document.addEventListener('DOMContentLoaded', function(event) {
-                var innerWidth = window.innerWidth;
-                var innerHeight = window.innerHeight;
-
-                var view = app.view;
-                view.width = innerWidth;
-                view.height = innerHeight;
-                view.centerPoint = {
-                    xCoordinate: (innerWidth / 2),
-                    yCoordinate: (innerHeight / 2)
-                };
-
-                var svg = document.getElementById('svg');
-                // TODO: can setting this shit to 100% work?
-                svg.setAttribute('width', innerWidth);
-                svg.setAttribute('height', innerHeight);
-                svg.setAttribute('xmlns', app.constants.xmlNameSpace);
-                view.svg = svg;
-
-                var head = document.getElementsByTagName('head')[0];
-                app.constants.resources.forEach(function(resourceMap) {
-                    var script = document.createElement('script');
-                    script.type = 'text/javascript';
-                    script.src = resourceMap.script;
-                    script.onload = resourceMap.onload;
-                    head.appendChild(script);
-                });
-
-                var canvas = document.getElementById('canvas');
-                canvas.width = innerWidth;
-                canvas.height = innerHeight;
-                var ctx = canvas.getContext('2d');
+            document.addEventListener('DOMContentLoaded', function() {
+                app.initialize(window);
             });
-
         </script>
-
     </body>
 </html>
 

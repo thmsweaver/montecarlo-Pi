@@ -1,12 +1,14 @@
 
-var squarePainter = (function(app) {
+(function() {
 
     var xmlNS = app.constants.xmlNameSpace;
-    var square = document.createElementNS(xmlNS, 'rect');
+    var doc = app.globals.document;
+    var square = doc.createElementNS(xmlNS, 'rect');
 
-    var view = app.view;
-    var circleRadius = app.globals.radius;
-    var centerPoint = view.centerPoint;
+    var mainView = app.mainView;
+    var radiusBase = Math.min(mainView.width, mainView.height);
+    var circleRadius = ((radiusBase / 2) * 0.8);
+    var centerPoint = mainView.centerPoint;
 
     var squareX = centerPoint.xCoordinate - circleRadius;
     square.setAttribute('x', squareX);
@@ -22,16 +24,10 @@ var squarePainter = (function(app) {
     square.setAttribute('stroke-width', '2');
     square.setAttribute('stroke', 'black');
 
-    app.squarePainter = squarePainter;
-
-    return {
-        paintBounds: function() {
-            var svg = view.svg;
-            svg.appendChild(square);
-        },
-        paintData: function() {
-
+    mainView.squareView = {
+        render: function() {
+            mainView.svg.appendChild(square);
         }
     };
 
-})(app);
+})();
