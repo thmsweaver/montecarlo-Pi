@@ -2,8 +2,7 @@ var scriptLoader = (function() {
     return {
         loadedScripts: {},
 
-        resolve: function(module, callback) {
-            var dependencies = module.dependencies;
+        resolve: function(dependencies, callback) {
             var numLoadedDependencies = 0;
             var dependencyLength = dependencies.length
 
@@ -18,6 +17,7 @@ var scriptLoader = (function() {
                     numLoadedDependencies += 1;
                 };
                 head.appendChild(script);
+                head.removeChild(script);
             });
 
             // TODO: does setInterval need an int?

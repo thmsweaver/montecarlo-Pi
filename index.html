@@ -1,20 +1,39 @@
 <!DOCTYPE html >
 <html>
     <head>
+        <link rel='stylesheet' type='text/css' href='./styles/application.css'>
         <script src='./scripts/resources/script-loader.js'></script>
         <script src='./scripts/app.js'></script>
     </head>
-    <body style='margin:0px;text-align:center;'>
+    <body style='margin:0px;'>
         <div class='header'>
-            <button class='btn' style='margin-top:60px;'>Estimate Pi</button>
+            <button class='start-button startButton' disabled>Estimate Pi</button>
+            <p class='pi-approximate'>&#8776; &#960;: 3.141592653589793</p>
+            <p class='pi-estimate'>est:
+                <span class='piEstimate'></span>
+            </p>
+            <section class='point-tally'>
+                <span class='points-in-square'>
+                    points in square: <span class='count pointsInSquare'>0</span>
+                </span>
+                <span class='points-in-cirlce'>
+                    points in circle: <span class='pointsInCircle'>0</span>
+                </span>
+            <section>
         </div>
         <div class='mainView'></div>
-        <canvas id='canvas' style='position:absolute;'></canvas>
-        <svg id='svg' version='1.1'></svg>
+        <canvas
+            id='canvas'
+            style='position:absolute;'></canvas>
+        <svg
+            id='svg'
+            version='1.1'></svg>
         <script type='text/javascript'>
+
             document.addEventListener('DOMContentLoaded', function() {
                 app.initialize(window);
             });
+
         </script>
     </body>
 </html>

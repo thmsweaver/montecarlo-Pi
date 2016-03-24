@@ -1,5 +1,4 @@
-
-(function() {
+;(function() {
 
     var xmlNS = app.constants.xmlNameSpace;
     var doc = app.globals.document;
@@ -7,7 +6,7 @@
 
     var mainView = app.mainView;
     var radiusBase = Math.min(mainView.width, mainView.height);
-    var circleRadius = ((radiusBase / 2) * 0.8);
+    var circleRadius = ((radiusBase / 2) * 0.9);
     var centerPoint = mainView.centerPoint;
 
     var squareX = centerPoint.xCoordinate - circleRadius;
@@ -16,7 +15,7 @@
     var squareY = centerPoint.yCoordinate - circleRadius;
     square.setAttribute('y', squareY);
 
-    var squareSide = circleRadius * 2;
+    var squareSide = app.globals.squareSide = circleRadius * 2;
     square.setAttribute('height', squareSide);
     square.setAttribute('width', squareSide);
 

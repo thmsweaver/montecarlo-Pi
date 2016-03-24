@@ -10,7 +10,7 @@ var app = (function() {
         initialize: function(window) {
             this.globals.window = window;
             this.globals.document = window.document;
-            scriptLoader.resolve(this, this.start.bind(this));
+            scriptLoader.resolve(this.dependencies, this.start.bind(this));
         },
 
         start: function() {
@@ -26,7 +26,7 @@ var app = (function() {
                 pointCount++;
 
                 self.mainView.paintPoint(randomPoint, pointCount);
-                setTimeout(function() { clearInterval(intervalId) }, 80000);
+                setTimeout(function() { clearInterval(intervalId) }, 800000);
             });
         }
 

@@ -1,6 +1,4 @@
-
-(function() {
-
+;(function() {
     var xmlNS = app.constants.xmlNameSpace;
     var doc = app.globals.document;
     var circle = doc.createElementNS(xmlNS, 'circle');
@@ -11,8 +9,7 @@
     circle.setAttribute('cy', centerPoint.yCoordinate);
 
     var radiusBase = Math.min(mainView.width, mainView.height);
-    var radius = ((radiusBase / 2) * 0.8);
-    app.globals.radius = radius;
+    var radius = app.globals.radius = ((radiusBase / 2) * 0.9);
     circle.setAttribute('r', radius);
 
     circle.setAttribute('fill', 'none');
@@ -24,5 +21,4 @@
             mainView.svg.appendChild(circle);
         }
     };
-
 })();

@@ -8,11 +8,13 @@
 
         initialize: function() {
             var header = app.globals.document.getElementsByClassName('header')[0];
-            var headerBottomFromTop = header.offsetHeight;
+            var headerBottomFromWindowTop = header.offsetHeight + header.offsetTop;
 
-            debugger
             var innerWidth = app.globals.window.innerWidth;
-            var innerHeight = app.globals.window.innerHeight - headerBottomFromTop;
+            var innerHeight = app.globals.window.innerHeight - headerBottomFromWindowTop;
+
+            this.pointsInSquare = 0;
+            this.pointsInCircle = 0;
 
             this.height = innerHeight;
             this.width = innerWidth;
@@ -21,14 +23,25 @@
                 yCoordinate: (innerHeight / 2)
             };
 
-            scriptLoader.resolve(this, this.render.bind(this));
+            scriptLoader.resolve(this.dependencies, this.render.bind(this));
+        },
+
+        getElByClass: function(className) {
+            var doc = app.globals.document;
+            return doc.getElementsByClassName(className)[0];
         },
 
         render: function() {
             this.configureSVG();
             this.configureCanvas();
-            // this.circleView.render(this);
-            // this.squareView.render(this);
+            this.circleView.render(this);
+            this.squareView.render(this);
+            var startButton = this.startButton = this.getElByClass('startButton');
+            startButton.addEventListener('click', function() { app.runSimulation(); });
+            startButton.disabled = false;
+            this.piEstimateDisplay = this.getElByClass('piEstimate');
+            this.pointsInSquareDisplay = this.getElByClass('pointsInSquare');
+            this.pointsInCircleDisplay = this.getElByClass('pointsInCircle');
         },
 
         configureSVG: function() {
@@ -63,6 +76,14 @@
             return xLeft + yLeft < Math.pow(circleRadius, 2);
         },
 
+        renderPointCounts: function(pointCount) {
+            this.pointsInSquareDisplay.innerHTML = pointCount;
+            var pointsInCircle = this.pointsInCircle;
+            this.pointsInCircleDisplay.innerHTML = pointsInCircle;
+            var piEstimate = (pointsInCircle / pointCount) * 4;
+            this.piEstimateDisplay.innerHTML = piEstimate;
+        },
+
         paintPoint: function(point, pointCount) {
             var circleRadius = app.globals.radius;
 
@@ -73,12 +94,16 @@
             this.ctx.arc(pointX, pointY, 2, 0, 2 * Math.PI);
 
             if (this.isInsideCircle(point, circleRadius)) {
+                this.pointsInCircle++;
                 this.ctx.strokeStyle = 'red';
             } else {
                 this.ctx.strokeStyle = 'blue';
             }
 
+            this.ctx.fillStyle = 'yellow';
+            this.ctx.fill();
             this.ctx.stroke();
+            this.renderPointCounts(pointCount);
         }
     }
 
