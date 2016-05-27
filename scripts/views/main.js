@@ -36,9 +36,11 @@
             this.configureCanvas();
             this.circleView.render(this);
             this.squareView.render(this);
+
             var startButton = this.startButton = this.getElByClass('startButton');
             startButton.addEventListener('click', function() { app.runSimulation(); });
             startButton.disabled = false;
+
             this.piEstimateDisplay = this.getElByClass('piEstimate');
             this.pointsInSquareDisplay = this.getElByClass('pointsInSquare');
             this.pointsInCircleDisplay = this.getElByClass('pointsInCircle');
@@ -73,7 +75,7 @@
         isInsideCircle: function(point, circleRadius) {
             var xLeft = Math.pow((point.x - circleRadius), 2);
             var yLeft = Math.pow((point.y - circleRadius), 2);
-            return xLeft + yLeft < Math.pow(circleRadius, 2);
+            return xLeft + yLeft <= Math.pow(circleRadius, 2);
         },
 
         renderPointCounts: function(pointCount) {

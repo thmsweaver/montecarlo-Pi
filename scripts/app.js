@@ -29,6 +29,5 @@ var app = (function() {
                 setTimeout(function() { clearInterval(intervalId) }, 800000);
             });
         }
-
     }
 })();
