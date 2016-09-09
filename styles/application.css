@@ -1,34 +1,35 @@
 .start-button {
-    display: block;
-    font-size: 20px;
-    border-radius: 4px;
     border: none;
-    margin: 0 auto;
-    margin-top: 30px;
+    border-radius: 4px;
+    float: left;
+    font-size: 20px;
+    margin-left: 41%;
+    margin-top: 14px;
 }
 
-.pi-approximate {
-    margin-left: 255px;
+.leader-board {
+    margin-left: 50%;
 }
 
-.pi-estimate {
-    margin: -10px 0 0 259px;
+.milliseconds.error {
+    border: 2px solid red;
 }
 
 .point-tally {
     margin-top: 20px;
+    position: relative;
 }
 
 .points-in-square {
-    margin-left: 62px;
+    float: left;
+    margin-left: 18%;
 }
 
 .points-in-cirlce {
-    margin-left: 268px;
-    position: absolute;
+    float: right;
+    margin-right: 18%;
 }
 
-.points-in-cirlce .count {
-    position: absolute;
-    right: -41px;
+.count {
+    text-align: center;
 }

@@ -28,7 +28,8 @@ var scriptLoader = (function() {
                 if (dependencyLength === numLoadedDependencies) {
                     clearInterval(checkLoadedDependenciesIntervalId);
                     clearTimeout(timeoutId);
-                    callback();
+
+                    if (callback) { callback(); }
                 }
             }, 1);
 

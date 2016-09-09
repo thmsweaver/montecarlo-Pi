@@ -17,16 +17,17 @@ var app = (function() {
             this.mainView.initialize();
         },
 
-        runSimulation: function(squareSide) {
+        runSimulation: function(milliseconds) {
             var self = this;
             var pointCount = 0;
+            this.mainView.resetDisplay();
 
             var intervalId = setInterval(function() {
                 var randomPoint = self.pointGenerator.getRandomPoint();
                 pointCount++;
 
                 self.mainView.paintPoint(randomPoint, pointCount);
-                setTimeout(function() { clearInterval(intervalId) }, 800000);
+                setTimeout(function() { clearInterval(intervalId) }, milliseconds);
             });
         }
     }

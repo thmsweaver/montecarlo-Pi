@@ -4,6 +4,7 @@
         dependencies: [
             './scripts/views/circle.js',
             './scripts/views/square.js',
+            './scripts/resources/helpers.js'
         ],
 
         initialize: function() {
@@ -38,12 +39,26 @@
             this.squareView.render(this);
 
             var startButton = this.startButton = this.getElByClass('startButton');
-            startButton.addEventListener('click', function() { app.runSimulation(); });
+            startButton.addEventListener('click', function() {
+                this.runSimulation()
+            }.bind(this));
             startButton.disabled = false;
 
             this.piEstimateDisplay = this.getElByClass('piEstimate');
             this.pointsInSquareDisplay = this.getElByClass('pointsInSquare');
             this.pointsInCircleDisplay = this.getElByClass('pointsInCircle');
+        },
+
+        runSimulation: function() {
+            var input = app.globals.document.getElementsByClassName('milliSeconds')[0];
+            input.style = 'border: 1px solid black;';
+            var value = parseInt(input.value);
+            if (isNaN(value)) {
+                input.style = 'border: 2px solid red;';
+                return;
+            }
+
+            app.runSimulation(value);
         },
 
         configureSVG: function() {
@@ -72,18 +87,30 @@
             return yVal + this.centerPoint.yCoordinate - circleRadius;
         },
 
-        isInsideCircle: function(point, circleRadius) {
-            var xLeft = Math.pow((point.x - circleRadius), 2);
-            var yLeft = Math.pow((point.y - circleRadius), 2);
-            return xLeft + yLeft <= Math.pow(circleRadius, 2);
-        },
-
         renderPointCounts: function(pointCount) {
             this.pointsInSquareDisplay.innerHTML = pointCount;
             var pointsInCircle = this.pointsInCircle;
             this.pointsInCircleDisplay.innerHTML = pointsInCircle;
             var piEstimate = (pointsInCircle / pointCount) * 4;
             this.piEstimateDisplay.innerHTML = piEstimate;
+        },
+
+        clearStats: function() {
+            [
+                this.pointsInSquareDisplay,
+                this.pointsInCircleDisplay,
+                this.piEstimateDisplay
+            ].forEach(function(statDisplay) { statDisplay.innerHTML = 0; });
+
+        },
+
+        clearCanvas: function() {
+            this.ctx.clearRect(0,0,canvas.width,canvas.height);
+        },
+
+        resetDisplay: function() {
+            this.clearCanvas();
+            this.clearStats();
         },
 
         paintPoint: function(point, pointCount) {
@@ -95,7 +122,7 @@
             this.ctx.beginPath();
             this.ctx.arc(pointX, pointY, 2, 0, 2 * Math.PI);
 
-            if (this.isInsideCircle(point, circleRadius)) {
+            if (this.helpers.isPointInsideCircle(point, circleRadius)) {
                 this.pointsInCircle++;
                 this.ctx.strokeStyle = 'red';
             } else {
