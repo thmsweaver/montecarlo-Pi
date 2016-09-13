@@ -24,8 +24,25 @@
     square.setAttribute('stroke', 'black');
 
     mainView.squareView = {
+        init: function() {
+            this.checkbox = mainView.getElByClass('display-settings square')
+            var self = this;
+            this.checkbox.addEventListener('click', function(){ self.toggleView(); })
+            this.render();
+        },
+
         render: function() {
-            mainView.svg.appendChild(square);
+            if (mainView.getElByClass('display-settings square').checked)
+                mainView.svg.appendChild(square);
+        },
+
+        toggleView: function() {
+            var el = doc.getElementsByTagName('rect')[0]
+            if (this.checkbox.checked) {
+                el.setAttribute('opacity', '1.0');
+            } else {
+                el.setAttribute('opacity', '0.0');
+            }
         }
     };
 

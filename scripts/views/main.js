@@ -8,11 +8,13 @@
         ],
 
         initialize: function() {
-            var header = app.globals.document.getElementsByClassName('header')[0];
-            var headerBottomFromWindowTop = header.offsetHeight + header.offsetTop;
-
             var innerWidth = app.globals.window.innerWidth;
-            var innerHeight = app.globals.window.innerHeight - headerBottomFromWindowTop;
+            var header = this.getElByClass('header');
+            var headerHeight = header.offsetHeight + header.offsetTop;
+            var footerHeight = this.getElByClass('footer').offsetHeight
+            var innerHeight = app.globals.window.innerHeight
+            innerHeight-=header.offsetHeight + header.offsetTop;
+            innerHeight-=footerHeight;
 
             this.pointsInSquare = 0;
             this.pointsInCircle = 0;
@@ -35,8 +37,8 @@
         render: function() {
             this.configureSVG();
             this.configureCanvas();
-            this.circleView.render(this);
-            this.squareView.render(this);
+            this.circleView.init();
+            this.squareView.init();
 
             var startButton = this.startButton = this.getElByClass('startButton');
             startButton.addEventListener('click', function() {

@@ -17,8 +17,26 @@
     circle.setAttribute('stroke', 'black');
 
     mainView.circleView = {
+        init: function() {
+            this.checkbox = mainView.getElByClass('display-settings circle')
+            var self = this;
+            this.checkbox.addEventListener('click', function(){ self.toggleView(); })
+            this.render();
+        },
+
         render: function() {
-            mainView.svg.appendChild(circle);
+            if (this.checkbox.checked) {
+                mainView.svg.appendChild(circle);
+            }
+        },
+
+        toggleView: function() {
+            var el = doc.getElementsByTagName('circle')[0]
+            if (this.checkbox.checked) {
+                el.setAttribute('opacity', '1.0');
+            } else {
+                el.setAttribute('opacity', '0.0');
+            }
         }
     };
 })();

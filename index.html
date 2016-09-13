@@ -7,7 +7,6 @@
     </head>
     <body style='margin:0px;'>
         <section class='header'>
-
             <button class='start-button startButton' disabled>Estimate Pi</button>
             <div class='leader-board'>
                 <p class='pi-approximate'>&#960;: 3.141592653589793</p>
@@ -30,7 +29,6 @@
                 </div>
                 <div style='clear:both;'></div>
             </section>
-
         </section>
         <div class='mainView'></div>
         <canvas
@@ -39,6 +37,23 @@
         <svg
             id='svg'
             version='1.1'></svg>
+        <section class='footer' style='padding:20px;'>
+            <div class='display-settings'>
+                <span>Display Settings:</span>
+                <label>
+                    <input
+                        type="checkbox"
+                        class='display-settings circle'
+                        checked
+                        >circle overlay</label>
+                <label>
+                    <input
+                        type="checkbox"
+                        class='display-settings square'
+                        checked
+                        >square overlay</label>
+            </div>
+        <section>
         <script type='text/javascript'>
             document.addEventListener('DOMContentLoaded', function() {
                 app.initialize(window);
