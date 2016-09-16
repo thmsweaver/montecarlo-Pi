@@ -40,9 +40,10 @@
             this.circleView.init();
             this.squareView.init();
 
-            var startButton = this.startButton = this.getElByClass('startButton');
-            startButton.addEventListener('click', function() {
-                this.runSimulation()
+            var startButton = this.startButton = this.getElByClass('milliSeconds');
+            startButton.addEventListener('keyup', function(event) {
+                event.preventDefault();
+                if (event.keyCode == 13) { this.runSimulation(); }
             }.bind(this));
             startButton.disabled = false;
 
@@ -54,13 +55,13 @@
         runSimulation: function() {
             var input = app.globals.document.getElementsByClassName('milliSeconds')[0];
             input.style = 'border: 1px solid black;';
-            var value = parseInt(input.value);
-            if (isNaN(value)) {
+            var seconds = parseInt(input.value);
+            if (isNaN(seconds)) {
                 input.style = 'border: 2px solid red;';
                 return;
             }
 
-            app.runSimulation(value);
+            app.runSimulation(seconds);
         },
 
         configureSVG: function() {

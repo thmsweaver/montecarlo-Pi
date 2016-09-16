@@ -17,7 +17,7 @@ var app = (function() {
             this.mainView.initialize();
         },
 
-        runSimulation: function(milliseconds) {
+        runSimulation: function(seconds) {
             var self = this;
             var pointCount = 0;
             this.mainView.resetDisplay();
@@ -27,7 +27,7 @@ var app = (function() {
                 pointCount++;
 
                 self.mainView.paintPoint(randomPoint, pointCount);
-                setTimeout(function() { clearInterval(intervalId) }, milliseconds);
+                setTimeout(function() { clearInterval(intervalId) }, seconds * 1000);
             });
         }
     }

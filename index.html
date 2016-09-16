@@ -7,7 +7,17 @@
     </head>
     <body style='margin:0px;'>
         <section class='header'>
-            <button class='start-button startButton' disabled>Estimate Pi</button>
+            <div style='text-align:center;'>
+                <div style='position:relative;display:inline-block;'>
+                    <span class='arrow'
+                        >&#8630;</span>Enter number of seconds to run the simulation
+                    <div class='milliseconds-cont'>
+                        <input class='milliseconds milliSeconds'> &#10145;
+                        <span class='prompt'>then press enter.</span>
+                    <div>
+                </div>
+            </div>
+
             <div class='leader-board'>
                 <p class='pi-approximate'>&#960;: 3.141592653589793</p>
                 <p class='pi-estimate'>est:
@@ -15,8 +25,6 @@
                 </p>
             </div>
             <div style='clear:both;'></div>
-
-            <input class='milliseconds milliSeconds'></input>
 
             <section class='point-tally'>
                 <div class='points-in-square'>
@@ -29,6 +37,7 @@
                 </div>
                 <div style='clear:both;'></div>
             </section>
+
         </section>
         <div class='mainView'></div>
         <canvas
