@@ -7,36 +7,35 @@
     </head>
     <body style='margin:0px;'>
         <section class='header'>
-            <div style='text-align:center;'>
-                <div style='position:relative;display:inline-block;'>
-                    <span class='arrow'
-                        >&#8630;</span>Enter number of seconds to run the simulation
-                    <div class='milliseconds-cont'>
-                        <input class='milliseconds milliSeconds'> &#10145;
-                        <span class='prompt'>then press enter.</span>
-                    <div>
+
+            <div class='stats'>
+                <div class='leader-board'>
+                    <div class='pi-approximate'>&#960;: 3.141592653589793</div>
+                    <div class='pi-estimate'>est: <span class='piEstimate'></span></div>
                 </div>
-            </div>
 
-            <div class='leader-board'>
-                <p class='pi-approximate'>&#960;: 3.141592653589793</p>
-                <p class='pi-estimate'>est:
-                    <span class='piEstimate'></span>
-                </p>
-            </div>
-            <div style='clear:both;'></div>
-
-            <section class='point-tally'>
                 <div class='points-in-square'>
-                    <span>points in square:</span>
-                    <div class='count pointsInSquare'>0</div>
+                    <div>points in square: <span class='count pointsInSquare'>0</span></div>
                 </div>
+
                 <div class='points-in-cirlce'>
-                    <span>points in circle:</span>
-                    <div class='count pointsInCircle'>0</div>
+                    <div>points in circle: <span class='count pointsInCircle'>0</span></div>
                 </div>
-                <div style='clear:both;'></div>
-            </section>
+            </div>
+
+            <div class='control'>
+                <div style='position:relative;'>
+                    <span class='arrow rotate'>&#8630;</span>
+                    Enter number of seconds to run the simulation
+                    <div class='milliseconds-cont'>
+                        <input class='milliseconds milliSeconds'>
+                        <span class='prompt'>
+                            <span class='arrow'>&#10141;</span> then press enter.
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class='clear:both;'></div>
 
         </section>
         <div class='mainView'></div>

@@ -8,13 +8,13 @@
         ],
 
         initialize: function() {
-            var innerWidth = app.globals.window.innerWidth;
             var header = this.getElByClass('header');
             var headerHeight = header.offsetHeight + header.offsetTop;
             var footerHeight = this.getElByClass('footer').offsetHeight
             var innerHeight = app.globals.window.innerHeight
             innerHeight-=header.offsetHeight + header.offsetTop;
             innerHeight-=footerHeight;
+            var innerWidth = app.globals.window.innerWidth;
 
             this.pointsInSquare = 0;
             this.pointsInCircle = 0;
@@ -99,6 +99,9 @@
         },
 
         clearStats: function() {
+            this.pointsInSquare = 0;
+            this.pointsInCircle = 0;
+
             [
                 this.pointsInSquareDisplay,
                 this.pointsInCircleDisplay,

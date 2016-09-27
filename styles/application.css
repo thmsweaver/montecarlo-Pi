@@ -1,9 +1,30 @@
-.leader-board {
-    margin-left: 50%;
-}
-
 .milliseconds.error {
     border: 2px solid red;
+}
+
+.header {
+    padding: 20px;
+    position: relative;
+    height: 100px;
+}
+
+.control {
+    text-align: center;
+    position: absolute;
+    display: inline-block;
+    top: 60px;
+    left: 220px;
+}
+
+.stats {
+    position: absolute;
+    right: 130px;
+    top: 50px;
+    width: 350px;
+}
+
+.pi-estimate {
+    margin-left: -9px;
 }
 
 .point-tally {
@@ -11,35 +32,39 @@
     position: relative;
 }
 
-.points-in-square {
-    float: left;
-    margin-left: 18%;
-}
-
-.points-in-cirlce {
-    float: right;
-    margin-right: 18%;
-}
-
-.count {
-    text-align: center;
-}
-
 .arrow {
+    font-size: 26px;
     position: absolute;
-    font-size: 42px;
-    top: -6px;
-    left: -44px;
     font-weight: 100;
-    transform: rotate(630deg);
     display: inline-block;
+    top: -4px;
+    left: -30px;
+}
+
+.rotate {
+    font-size: 42px;
+    left: -44px;
+    top: -6px;
+    transform: rotate(630deg);
 }
 
 .milliseconds-cont {
     display: block;
     margin-top: 6px;
+    position: relative;
+}
+
+.milliseconds {
+    height:20px;
+    border-radius: 5px;
+    outline: none;
+    border: 1px solid black;
+    left: -20px;
+    position: absolute;
+    top: -4px;
 }
 
 .prompt {
     display: inline-block;
+    position: absolute;
 }
