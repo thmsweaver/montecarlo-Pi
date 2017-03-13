@@ -5,68 +5,62 @@
         <script src='./scripts/resources/script-loader.js'></script>
         <script src='./scripts/app.js'></script>
     </head>
-    <body style='margin:0px;'>
-        <section class='header'>
+    <body>
 
-            <div class='stats'>
-                <div class='leader-board'>
-                    <div class='pi-approximate'>&#960;: 3.141592653589793</div>
-                    <div class='pi-estimate'>est: <span class='piEstimate'></span></div>
-                </div>
-
-                <div class='points-in-square'>
-                    <div>points in square: <span class='count pointsInSquare'>0</span></div>
-                </div>
-
-                <div class='points-in-cirlce'>
-                    <div>points in circle: <span class='count pointsInCircle'>0</span></div>
-                </div>
-            </div>
-
-            <div class='control'>
-                <div style='position:relative;'>
-                    <span class='arrow rotate'>&#8630;</span>
-                    Enter number of seconds to run the simulation
-                    <div class='milliseconds-cont'>
-                        <input class='milliseconds milliSeconds'>
-                        <span class='prompt'>
-                            <span class='arrow'>&#10141;</span> then press enter.
-                        </span>
-                    </div>
-                </div>
-            </div>
-            <div class='clear:both;'></div>
-
+        <section id='header'>
+            <h1 class='title'>monte carlo pi simulation</h1>
+            <p class='control'>
+                Enter number of seconds to run the simulation
+                <input class='milliseconds milliSeconds'>
+                then press enter.
+            </p>
         </section>
-        <div class='mainView'></div>
-        <canvas
-            id='canvas'
-            style='position:absolute;'></canvas>
-        <svg
-            id='svg'
-            version='1.1'></svg>
-        <section class='footer' style='padding:20px;'>
-            <div class='display-settings'>
+
+        <section id='main-view'>
+            <p>Approximate value of Pi: 3.141592653589793</p>
+            <p>Estimated value of Pi: <span class='piEstimate'></span></p>
+            <p>Calculated variance: </p>
+            <p>Percentage variance: </p>
+            <p>Most accurate run: {result}, {settings}, {timestamp}</p>
+            <p>Least accurate run: {result}, {settings}, {timestamp}</p>
+        </section>
+
+        <section id='sidebar'>
+            <canvas id='canvas' style='position:absolute;'></canvas>
+            <svg id='svg' version='1.1'></svg>
+        </section>
+
+        <section class='footer'>
+            <div class='settings'>
                 <span>Display Settings:</span>
                 <label>
                     <input
-                        type="checkbox"
+                        type='checkbox'
                         class='display-settings circle'
-                        checked
-                        >circle overlay</label>
+                        checked>circle overlay
+                </label>
+                <span> - </span>
                 <label>
                     <input
-                        type="checkbox"
+                        type='checkbox'
                         class='display-settings square'
-                        checked
-                        >square overlay</label>
+                        checked>square overlay
+                </label>
+            </div>
+            <div class='results'>
+                <span>points in square: <span class='count pointsInSquare'>0</span></span>
+                <span> - </span>
+                <span>points in circle: <span class='count pointsInCircle'>0</span></span>
+                <div style='clear: both;'></div>
             </div>
         <section>
+
         <script type='text/javascript'>
             document.addEventListener('DOMContentLoaded', function() {
                 app.initialize(window);
             });
         </script>
+
     </body>
 </html>
 

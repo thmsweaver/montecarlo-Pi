@@ -3,42 +3,39 @@
     var mainView = {
         dependencies: [
             './scripts/views/circle.js',
+            './scripts/views/sidebar.js',
             './scripts/views/square.js',
             './scripts/resources/helpers.js'
         ],
 
         initialize: function() {
-            var header = this.getElByClass('header');
-            var headerHeight = header.offsetHeight + header.offsetTop;
-            var footerHeight = this.getElByClass('footer').offsetHeight
-            var innerHeight = app.globals.window.innerHeight
-            innerHeight-=header.offsetHeight + header.offsetTop;
-            innerHeight-=footerHeight;
-            var innerWidth = app.globals.window.innerWidth;
+            // var header = this.getElByClass('header');
+            // var headerHeight = header.offsetHeight + header.offsetTop;
+            // var footerHeight = this.getElByClass('footer').offsetHeight
+            // var innerHeight = app.globals.window.innerHeight
+            // innerHeight -= headerHeight;
+            // innerHeight -= footerHeight;
+            // var innerWidth = app.globals.window.innerWidth;
 
-            this.pointsInSquare = 0;
-            this.pointsInCircle = 0;
+            // this.pointsInSquare = 0;
+            // this.pointsInCircle = 0;
 
-            this.height = innerHeight;
-            this.width = innerWidth;
-            this.centerPoint = {
-                xCoordinate: (innerWidth / 2),
-                yCoordinate: (innerHeight / 2)
-            };
+            // this.height = innerHeight;
+            // this.width = innerWidth;
+            // this.centerPoint = {
+            //     xCoordinate: (innerWidth / 2),
+            //     yCoordinate: (innerHeight / 2)
+            // };
 
             scriptLoader.resolve(this.dependencies, this.render.bind(this));
         },
 
         getElByClass: function(className) {
-            var doc = app.globals.document;
-            return doc.getElementsByClassName(className)[0];
+            return document.getElementsByClassName(className)[0];
         },
 
         render: function() {
-            this.configureSVG();
-            this.configureCanvas();
-            this.circleView.init();
-            this.squareView.init();
+            this.sidebar.initialize();
 
             var startButton = this.startButton = this.getElByClass('milliSeconds');
             startButton.addEventListener('keyup', function(event) {
@@ -64,43 +61,9 @@
             app.runSimulation(seconds);
         },
 
-        configureSVG: function() {
-            var doc = app.globals.document;
-
-            var svg = doc.getElementById('svg');
-            // TODO: can setting this shit to 100% work?
-            svg.setAttribute('width', this.width);
-            svg.setAttribute('height', this.height);
-            svg.setAttribute('xmlns', app.constants.xmlNameSpace);
-            this.svg = svg;
-        },
-
-        configureCanvas: function() {
-            var canvas = app.globals.document.getElementById('canvas');
-            canvas.width = this.width;
-            canvas.height = this.height;
-            this.ctx = canvas.getContext('2d');
-        },
-
-        translateX: function(xVal, circleRadius) {
-            return xVal + this.centerPoint.xCoordinate - circleRadius;
-        },
-
-        translateY: function(yVal,circleRadius) {
-            return yVal + this.centerPoint.yCoordinate - circleRadius;
-        },
-
-        renderPointCounts: function(pointCount) {
-            this.pointsInSquareDisplay.innerHTML = pointCount;
-            var pointsInCircle = this.pointsInCircle;
-            this.pointsInCircleDisplay.innerHTML = pointsInCircle;
-            var piEstimate = (pointsInCircle / pointCount) * 4;
-            this.piEstimateDisplay.innerHTML = piEstimate;
-        },
-
         clearStats: function() {
-            this.pointsInSquare = 0;
-            this.pointsInCircle = 0;
+            app.state.pointsInSquare = 0;
+            app.state.pointsInCircle = 0;
 
             [
                 this.pointsInSquareDisplay,
@@ -118,27 +81,8 @@
             this.clearCanvas();
             this.clearStats();
         },
-
-        paintPoint: function(point, pointCount) {
-            var circleRadius = app.globals.radius;
-
-            var pointX = this.translateX(point.x, circleRadius);
-            var pointY = this.translateY(point.y, circleRadius);
-
-            this.ctx.beginPath();
-            this.ctx.arc(pointX, pointY, 2, 0, 2 * Math.PI);
-
-            if (this.helpers.isPointInsideCircle(point, circleRadius)) {
-                this.pointsInCircle++;
-                this.ctx.strokeStyle = 'red';
-            } else {
-                this.ctx.strokeStyle = 'blue';
-            }
-
-            this.ctx.fillStyle = 'yellow';
-            this.ctx.fill();
-            this.ctx.stroke();
-            this.renderPointCounts(pointCount);
+        paintPoint: function(point) {
+            this.sidebar.paintPoint(point);
         }
     }
 

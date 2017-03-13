@@ -1,47 +1,52 @@
 ;(function() {
+    app.squareView = {
 
-    var xmlNS = app.constants.xmlNameSpace;
-    var doc = app.globals.document;
-    var square = doc.createElementNS(xmlNS, 'rect');
+        initialize: function($svg, animationCenterPoint) {
+            this.$svg = $svg
+            this.animationCenterPoint = animationCenterPoint;
 
-    var mainView = app.mainView;
-    var radiusBase = Math.min(mainView.width, mainView.height);
-    var circleRadius = ((radiusBase / 2) * 0.9);
-    var centerPoint = mainView.centerPoint;
+            this.$el = document.createElementNS(
+                app.constants.xmlNameSpace, 'rect'
+            );
 
-    var squareX = centerPoint.xCoordinate - circleRadius;
-    square.setAttribute('x', squareX);
-
-    var squareY = centerPoint.yCoordinate - circleRadius;
-    square.setAttribute('y', squareY);
-
-    var squareSide = app.globals.squareSide = circleRadius * 2;
-    square.setAttribute('height', squareSide);
-    square.setAttribute('width', squareSide);
-
-    square.setAttribute('fill', 'none');
-    square.setAttribute('stroke-width', '2');
-    square.setAttribute('stroke', 'black');
-
-    mainView.squareView = {
-        init: function() {
-            this.checkbox = mainView.getElByClass('display-settings square')
+            this.checkbox = document.getElementsByClassName('display-settings square')[0];
             var self = this;
             this.checkbox.addEventListener('click', function(){ self.toggleView(); })
+
             this.render();
         },
 
         render: function() {
-            if (mainView.getElByClass('display-settings square').checked)
-                mainView.svg.appendChild(square);
+            if (this.checkbox.checked)
+                this.appendSquare();
+        },
+
+        appendSquare: function() {
+            var xCoordinate = this.animationCenterPoint.xCoordinate;
+            var yCoordinate = this.animationCenterPoint.yCoordinate;
+
+            var circleRadiusBase = Math.min(xCoordinate * 2, yCoordinate * 2);
+            var circleRadius = circleRadiusBase / 2;
+
+            this.$el.setAttribute('x', xCoordinate - circleRadius);
+            this.$el.setAttribute('y', yCoordinate - circleRadius);
+
+            var squareSide = app.globals.squareSide = circleRadius * 2;
+            this.$el.setAttribute('height', squareSide);
+            this.$el.setAttribute('width', squareSide);
+
+            this.$el.setAttribute('fill', 'none');
+            this.$el.setAttribute('stroke-width', '1');
+            this.$el.setAttribute('stroke', 'black');
+
+            this.$svg.appendChild(this.$el);
         },
 
         toggleView: function() {
-            var el = doc.getElementsByTagName('rect')[0]
             if (this.checkbox.checked) {
-                el.setAttribute('opacity', '1.0');
+                this.$el.setAttribute('opacity', '1.0');
             } else {
-                el.setAttribute('opacity', '0.0');
+                this.$el.setAttribute('opacity', '0.0');
             }
         }
     };
