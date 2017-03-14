@@ -3,30 +3,14 @@
     var mainView = {
         dependencies: [
             './scripts/views/circle.js',
+            './scripts/views/footer.js',
             './scripts/views/sidebar.js',
+            './scripts/views/simulation-results.js',
             './scripts/views/square.js',
             './scripts/resources/helpers.js'
         ],
 
         initialize: function() {
-            // var header = this.getElByClass('header');
-            // var headerHeight = header.offsetHeight + header.offsetTop;
-            // var footerHeight = this.getElByClass('footer').offsetHeight
-            // var innerHeight = app.globals.window.innerHeight
-            // innerHeight -= headerHeight;
-            // innerHeight -= footerHeight;
-            // var innerWidth = app.globals.window.innerWidth;
-
-            // this.pointsInSquare = 0;
-            // this.pointsInCircle = 0;
-
-            // this.height = innerHeight;
-            // this.width = innerWidth;
-            // this.centerPoint = {
-            //     xCoordinate: (innerWidth / 2),
-            //     yCoordinate: (innerHeight / 2)
-            // };
-
             scriptLoader.resolve(this.dependencies, this.render.bind(this));
         },
 
@@ -35,8 +19,12 @@
         },
 
         render: function() {
+            app.simulationResults.initialize();
             this.sidebar.initialize();
+            app.footer.initialize();
 
+            // this should go in to a header view
+            // in the header view give focus to the input
             var startButton = this.startButton = this.getElByClass('milliSeconds');
             startButton.addEventListener('keyup', function(event) {
                 event.preventDefault();

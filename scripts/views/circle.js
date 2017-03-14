@@ -1,9 +1,11 @@
 ;(function() {
     app.circleView = {
+        // TODO: a negative value is not accepted (small screen width)
 
         initialize: function($svg, animationCenterPoint) {
             this.$svg = $svg
             this.animationCenterPoint = animationCenterPoint;
+            this.checkbox = document.getElementsByClassName('display-settings circle')[0];
             this.radius = app.globals.radius = Math.min(
                 animationCenterPoint.xCoordinate, animationCenterPoint.yCoordinate
             );
@@ -11,10 +13,6 @@
             this.$el = document.createElementNS(
                 app.constants.xmlNameSpace, 'circle'
             );
-
-            var self = this;
-            this.checkbox = document.getElementsByClassName('display-settings circle')[0];
-            this.checkbox.addEventListener('click', function(){ self.toggleView(); })
 
             this.render();
         },

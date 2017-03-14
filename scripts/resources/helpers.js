@@ -6,9 +6,24 @@
             var yLeft = Math.pow((point.y - circleRadius), 2);
             return xLeft + yLeft <= Math.pow(circleRadius, 2);
         },
-        getElementByClassName: function(className) {
+
+        getElByClass: function(className) {
             // TODO: or raise?
             return document.getElementsByClassName(className)[0];
+        },
+
+        isStorageEnabled: function(storageType) {
+            if (!window[storageType]) return false;
+            var test = 'test';
+
+            try {
+                localStorage.setItem(test, test);
+                localStorage.getItem(test);
+                localStorage.removeItem(test);
+                return true;
+            } catch(e) {
+                return false;
+            }
         }
     }
 

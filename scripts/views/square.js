@@ -4,14 +4,11 @@
         initialize: function($svg, animationCenterPoint) {
             this.$svg = $svg
             this.animationCenterPoint = animationCenterPoint;
+            this.checkbox = document.getElementsByClassName('display-settings square')[0];
 
             this.$el = document.createElementNS(
                 app.constants.xmlNameSpace, 'rect'
             );
-
-            this.checkbox = document.getElementsByClassName('display-settings square')[0];
-            var self = this;
-            this.checkbox.addEventListener('click', function(){ self.toggleView(); })
 
             this.render();
         },

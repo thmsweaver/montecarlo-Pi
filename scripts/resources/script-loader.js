@@ -11,7 +11,10 @@ var scriptLoader = (function() {
             for (var i = 0; i < dependencyLength; i++) {
                 var dependency = dependencies[i];
                 var fileName = this.getFileName(dependency);
-                if (app[fileName]) { continue; }
+                if (app[fileName]) {
+                    numLoadedDependencies += 1;
+                    continue;
+                }
 
                 var script = doc.createElement('script');
                 script.type = 'text/javascript';

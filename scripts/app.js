@@ -5,6 +5,7 @@ var app = (function() {
         dependencies: [
             './scripts/views/main.js',
             './scripts/controller.js',
+            './scripts/resources/helpers.js',
             './scripts/resources/point-generator.js'
         ],
 
@@ -12,6 +13,8 @@ var app = (function() {
             pointsGenerated: 0,
             pointsInCircle: 0,
         },
+
+        storageEnabled: false,
 
         incrementPointsGenerated: function() {
             this.state.pointsGenerated += 1;
@@ -22,28 +25,51 @@ var app = (function() {
         },
 
         initialize: function(window) {
+            // TODO: get rid of these ridiculous globals
             this.globals.window = window;
             this.globals.document = window.document;
             scriptLoader.resolve(this.dependencies, this.start.bind(this));
         },
 
         start: function() {
+            this.configureStorage();
             this.mainView.initialize();
+        },
+
+        configureStorage: function() {
+            // TODO: ensure this returns and does not continue elif
+            if (app.helpers.isStorageEnabled('localStorage')) {
+                this.storageEnabled = true;
+                this.storage = localStorage;
+            } else if (app.helpers.isStorageEnabled('sessionStorage')) {
+                this.storageEnabled = true;
+                this.storage = sessionStorage;
+            }
+        },
+
+        resetState: function(seconds) {
+            this.state.pointsGenerated = 0;
+            this.state.pointsInCircle = 0;
         },
 
         runSimulation: function(seconds) {
             var self = this;
-            var pointCount = 0;
+
+            this.resetState();
             this.mainView.resetDisplay();
 
-            var intervalId = setInterval(function() {
+            var intervalID = setInterval(function() {
                 var randomPoint = self.pointGenerator.getRandomPoint();
                 self.incrementPointsGenerated();
 
                 // TODO: should be controller
                 self.mainView.paintPoint(randomPoint);
-                setTimeout(function() { clearInterval(intervalId) }, seconds * 1000);
             });
+
+            setTimeout(function() {
+                clearInterval(intervalID)
+                self.controller.dispatchSimulationOutcome(seconds, Date());
+            }, seconds * 1000);
         }
     }
 })();

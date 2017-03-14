@@ -93,7 +93,7 @@
             this.ctx.fillStyle = 'yellow';
             this.ctx.fill();
             this.ctx.stroke();
-            app.controller.renderPointCounts();
+            app.controller.dispatchPaintPointResults()
         }
     };
 })();
