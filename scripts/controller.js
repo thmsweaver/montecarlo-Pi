@@ -7,7 +7,7 @@
 
         dispatchPaintPointResults: function() {
             app.footer.renderPointCounts();
-            app.simulationResults.renderResults();
+            app.simulationResults.renderRealTimeResults();
         },
 
         dispatchSimulationOutcome: function(seconds, date) {

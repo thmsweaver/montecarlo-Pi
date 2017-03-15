@@ -12,6 +12,10 @@
             return document.getElementsByClassName(className)[0];
         },
 
+        emptyNode: function(node) {
+            while (node.firstChild) node.removeChild(node.firstChild);
+        },
+
         isStorageEnabled: function(storageType) {
             if (!window[storageType]) return false;
             var test = 'test';
