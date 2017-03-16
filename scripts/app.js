@@ -1,12 +1,16 @@
 var app = (function() {
     return {
         globals: {},
-        constants: { xmlNameSpace: 'http://www.w3.org/2000/svg' },
+        constants: {
+            xmlNameSpace: 'http://www.w3.org/2000/svg'
+        },
         dependencies: [
             './scripts/views/main.js',
+            './scripts/views/circle.js',
             './scripts/controller.js',
             './scripts/resources/helpers.js',
-            './scripts/resources/point-generator.js'
+            './scripts/resources/point-generator.js',
+            './scripts/views/square.js',
         ],
 
         state: {
@@ -25,9 +29,6 @@ var app = (function() {
         },
 
         initialize: function(window) {
-            // TODO: get rid of these ridiculous globals
-            this.globals.window = window;
-            this.globals.document = window.document;
             scriptLoader.resolve(this.dependencies, this.start.bind(this));
         },
 
@@ -53,11 +54,9 @@ var app = (function() {
         },
 
         runSimulation: function(seconds) {
+            this.controller.dispatchReset();
+
             var self = this;
-
-            this.resetState();
-            this.mainView.resetDisplay();
-
             var intervalID = setInterval(function() {
                 var randomPoint = self.pointGenerator.getRandomPoint();
                 self.incrementPointsGenerated();

@@ -1,7 +1,7 @@
 ;(function() {
     var mainView = app.mainView
 
-    mainView.sidebar = {
+    app.sidebar = {
         dependencies: [
             './scripts/resources/helpers.js',
             './scripts/views/circle.js',
@@ -22,7 +22,8 @@
                 yCoordinate: (this.height / 2)
             };
 
-            this.render();
+            scriptLoader.resolve(this.dependencies, this.render.bind(this));
+            this.initialized = true;
         },
 
         render: function() {
@@ -33,6 +34,10 @@
             this.configureCanvas();
             app.circleView.initialize(this.$svg, this.animationCenterPoint);
             app.squareView.initialize(this.$svg, this.animationCenterPoint);
+        },
+
+        clearCanvas: function() {
+            this.ctx.clearRect(0,0,canvas.width,canvas.height);
         },
 
         configureCanvas: function() {

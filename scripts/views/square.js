@@ -14,8 +14,8 @@
         },
 
         render: function() {
-            if (this.checkbox.checked)
-                this.appendSquare();
+            this.appendSquare();
+            this.toggleView();
         },
 
         appendSquare: function() {
@@ -35,6 +35,7 @@
             this.$el.setAttribute('fill', 'none');
             this.$el.setAttribute('stroke-width', '1');
             this.$el.setAttribute('stroke', 'black');
+            this.$el.setAttribute('opacity', '0.0');
 
             this.$svg.appendChild(this.$el);
         },

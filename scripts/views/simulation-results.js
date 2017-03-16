@@ -1,6 +1,15 @@
 ;(function() {
     app.simulationResults = {
-        dependencies: ['./scripts/resources/helpers.js'],
+        dependencies: [
+            './scripts/resources/helpers.js'
+        ],
+        displayHooks: [
+            'absoluteDifference',
+            'percentVariance',
+            'piEstimate',
+            'mostAccurateRun',
+            'leastAccurateRun',
+        ],
         realTimeDisplays: [
             'piEstimateDisplay',
             'absoluteDifferenceDisplay',
@@ -14,13 +23,19 @@
         ],
 
         initialize: function() {
-            this.$piEstimateDisplay = app.helpers.getElByClass('piEstimate');
-            this.$absoluteDifferenceDisplay = app.helpers.getElByClass('absoluteDifference');
-            this.$percentVarianceDisplay = app.helpers.getElByClass('percentVariance');
-            this.$mostAccurateRunDisplay = app.helpers.getElByClass('mostAccurateRun');
-            this.$leastAccurateRunDisplay = app.helpers.getElByClass('leastAccurateRun');
+            var _callback = function() {
+                this.configure();
+                this.render();
+            }.bind(this);
 
-            this.render();
+            scriptLoader.resolve(this.dependencies, _callback);
+        },
+
+        configure: function() {
+            _cachedGetElByClass = app.helpers.getElByClass;
+            this.displayHooks.forEach(function(className) {
+                this['$' + className + 'Display'] = _cachedGetElByClass(className);
+            }, this);
         },
 
         render: function() {
@@ -40,7 +55,6 @@
                 Please enable 'localStorage' or 'sessionStorage '
                 to take advantage of this feature.
             `;
-            // TODO: must I clear this out first?
             this.$mostAccurateRunDisplay.innerHTML = feedback;
             this.$leastAccurateRunDisplay.innerHTML = feedback;
         },
@@ -70,7 +84,7 @@
 
             var $list = document.createElement('UL');
             this.storedDataKeys.forEach(function(dataKey) {
-                // sanitize unsafe strings
+                // `createTextNode` to sanitize unsafe strings
                 var textNode = document.createTextNode(validStoredData[dataKey]);
                 var $item = document.createElement('LI');
                 $item.innerHTML = dataKey + ': ';
@@ -92,14 +106,15 @@
             this.$leastAccurateRunDisplay.appendChild(leastAccurateRunTemplate);
         },
 
-        getPercentVariance: function() {
+        getFormattedPercentVariance: function() {
             var numerator = this.getAbsoluteDifference();
             var denominator = (Math.PI + this.getPiEstimate()) / 2
-
-            return (numerator / denominator) * 100;
+            var result = (numerator / denominator) * 100;
+            return result.toFixed(2) + '%';
         },
 
         getPiEstimate: function() {
+            if (!app.state.pointsGenerated) return 0
             return (app.state.pointsInCircle / app.state.pointsGenerated) * 4;
         },
 
@@ -113,20 +128,21 @@
             this.$piEstimateDisplay.innerHTML = result;
         },
 
-        renderAbsoluteDifference: function() {
-            this.$absoluteDifferenceDisplay.innerHTML = this.getAbsoluteDifference();
+        renderAbsoluteDifference: function(absoluteDifference) {
+            var result = absoluteDifference || this.getAbsoluteDifference();
+            this.$absoluteDifferenceDisplay.innerHTML = result;
         },
 
-        renderPercentVariance: function() {
-            var result = this.getPercentVariance();
-            this.$percentVarianceDisplay.innerHTML = result.toFixed(2) + '%';
+        renderPercentVariance: function(percentVariance) {
+            var result = percentVariance || this.getFormattedPercentVariance();
+            this.$percentVarianceDisplay.innerHTML = result;
         },
 
         handleRunData: function(seconds, date, storageKey, handler) {
             var currentRunData = {
                 pIEstimate: this.getPiEstimate(),
                 seconds: seconds,
-                percentVariance: this.getPercentVariance(),
+                percentVariance: this.getFormattedPercentVariance(),
                 date: date,
             };
 
@@ -169,13 +185,14 @@
             this.handleRunData(seconds, date, 'leastAccurateRun', leastAccurateRunHandler);
         },
 
-        renderRealTimeResults: function() {
-            var piEstimate = this.getPiEstimate();
-            var absoluteDifference = this.getAbsoluteDifference();
+        renderRealTimeResults: function(piEstimate, absoluteDifference, percentVariance) {
+            var piEstimate = piEstimate || this.getPiEstimate();
+            var absoluteDifference = absoluteDifference || this.getAbsoluteDifference();
+            var percentVariance = percentVariance || this.getFormattedPercentVariance();
 
             this.renderPiEstimate(piEstimate);
             this.renderAbsoluteDifference(absoluteDifference);
-            this.renderPercentVariance();
+            this.renderPercentVariance(percentVariance);
         }
     };
 })();

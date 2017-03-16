@@ -1,50 +1,64 @@
 ;(function() {
     app.footer = {
         dependencies: [
-            './scripts/views/square.js',
             './scripts/views/circle.js',
+            './scripts/resources/helpers.js',
+            './scripts/views/square.js',
         ],
 
         initialize: function() {
-            this.pointsInSquareDisplay = document.getElementsByClassName('pointsInSquare')[0];
-            this.pointsInCircleDisplay = document.getElementsByClassName('pointsInCircle')[0];
-
-            this.initializeClickHandlers()
+            scriptLoader.resolve(this.dependencies, this.configure.bind(this));
         },
 
-        initializeClickHandlers: function() {
-            this.addEventListener(
-                'display-settings circle', 'click', app.circleView.toggleView.bind(app.circleView)
-            )
-            this.addEventListener(
-                'display-settings square', 'click', app.squareView.toggleView.bind(app.squareView)
-            )
+        configure: function() {
+            this.$pointsGeneratedDisplay = app.helpers.getElByClass('pointsInSquare');
+            this.$pointsInCircleDisplay = app.helpers.getElByClass('pointsInCircle');
+            this.configreClickHandlers()
+            this.configureKeyPressHandlers();
         },
 
-        initializeKeyPressHandlers: function() {
-            var keypressHandler = function(e) {
-                if (e.which == 13) {
-                    this.checkbox.checked = !this.checkbox.checked;
-                    this.toggleView();
-                }
+        configreClickHandlers: function() {
+            this.configureListener(
+                'display-settings circle',
+                'click',
+                function(){ app.circleView.toggleView(); }
+            );
+            this.configureListener(
+                'display-settings square',
+                'click',
+                function(){ app.squareView.toggleView(); }
+            );
+        },
+
+        configureKeyPressHandlers: function() {
+            var _curryCallback = function(viewName) {
+                return function(e) {
+                    if (!e.which == 13) return
+                    var view = app[viewName];
+                    view.checkbox.checked = !view.checkbox.checked;
+                    view.toggleView();
+                };
             };
-
-            this.addEventListener(
-                'display-settings circle', 'keypress', keypressHandler.bind(app.circleView)
-            )
-            this.addEventListener(
-                'display-settings square', 'keypress', keypressHandler.bind(app.squareView)
-            )
+            this.configureListener(
+                'display-settings circle',
+                'keypress',
+                _curryCallback('circleView')
+            );
+            this.configureListener(
+                'display-settings square',
+                'keypress',
+                _curryCallback('squareView')
+            );
         },
 
-        addEventListener: function(className, event, callBack) {
-            var element = document.getElementsByClassName(className)[0];
+        configureListener: function(className, event, callBack) {
+            var element = app.helpers.getElByClass(className);
             element.addEventListener(event, callBack);
         },
 
         renderPointCounts: function() {
-            this.pointsInSquareDisplay.innerHTML = app.state.pointsGenerated;
-            this.pointsInCircleDisplay.innerHTML = app.state.pointsInCircle;
+            this.$pointsGeneratedDisplay.innerHTML = app.state.pointsGenerated;
+            this.$pointsInCircleDisplay.innerHTML = app.state.pointsInCircle;
         }
     };
 })();

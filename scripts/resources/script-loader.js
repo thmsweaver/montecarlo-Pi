@@ -5,8 +5,7 @@ var scriptLoader = (function() {
         resolve: function(dependencies, callback) {
             var numLoadedDependencies = 0;
             var dependencyLength = dependencies.length
-            var doc = app.globals.document;
-            var head = doc.getElementsByTagName('head')[0];
+            var head = document.getElementsByTagName('head')[0];
 
             for (var i = 0; i < dependencyLength; i++) {
                 var dependency = dependencies[i];
@@ -16,7 +15,7 @@ var scriptLoader = (function() {
                     continue;
                 }
 
-                var script = doc.createElement('script');
+                var script = document.createElement('script');
                 script.type = 'text/javascript';
                 script.src = dependency;
                 script.onload = function(){
